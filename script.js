@@ -1,0 +1,55 @@
+document.getElementById('check-btn').addEventListener('click', function(event) {
+    const flowerContainer = document.getElementById('glitterContainer');
+
+    for (let i = 0; i < 20; i++) {
+        const flower = document.createElement('div');
+        flower.className = 'flower';
+        
+        flower.style.left = `${Math.random() * window.innerWidth}px`;
+        flower.style.top = `${Math.random() * window.innerHeight}px`;
+
+        flowerContainer.appendChild(flower);
+
+        flower.addEventListener('animationend', () => {
+            flowerContainer.removeChild(flower);
+        });
+    }
+});
+const userInput = document.getElementById('text-input');
+const checkPalindromeBtn = document.getElementById('check-btn');
+const resultDiv = document.getElementById('result');
+
+const checkForPalindrome = input => {
+  const originalInput = input; 
+
+  if (input === '') {
+    alert('Please input a value');
+    return;
+  }
+
+  resultDiv.replaceChildren();
+
+  const lowerCaseStr = input.replace(/[^A-Za-z0-9]/gi, '').toLowerCase();
+  let resultMsg = `<strong>${originalInput}</strong> ${
+    lowerCaseStr === [...lowerCaseStr].reverse().join('') ? 'is' : 'is not'
+  } a palindrome.`;
+
+  const pTag = document.createElement('p');
+  pTag.className = 'user-input';
+  pTag.innerHTML = resultMsg;
+  resultDiv.appendChild(pTag);
+
+  resultDiv.classList.remove('hidden');
+};
+
+checkPalindromeBtn.addEventListener('click', () => {
+  checkForPalindrome(userInput.value);
+  userInput.value = '';
+});
+
+userInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    checkForPalindrome(userInput.value);
+    userInput.value = '';
+  }
+});
